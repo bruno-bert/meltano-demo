@@ -1,0 +1,26 @@
+version: 1
+send_anonymous_usage_stats: true
+project_id: 28820152-3fd1-4ba5-8f5c-0b09e2e42d5c
+plugins:
+  extractors:
+  - name: tap-csv
+    variant: meltano
+    pip_url: git+https://gitlab.com/meltano/tap-csv.git
+    config:
+      files:
+      - entity: things
+        file: input/things.csv
+        keys:
+        - id
+  loaders:
+  - name: target-jsonl
+    variant: andyh1203
+    pip_url: target-jsonl
+    config:
+      destination_path: output
+  transformers:
+  - name: dbt
+    pip_url: dbt==0.16.1
+  files:
+  - name: dbt
+    pip_url: git+https://gitlab.com/meltano/files-dbt.git
